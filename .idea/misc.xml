@@ -1,5 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/eric_/Desktop/Note2/app/src/main/res/layout/activity_main.xml" value="0.1515625" />
+        <entry key="..\:/Users/eric_/Desktop/Note2/app/src/main/res/layout/edit_layout.xml" value="0.152" />
+        <entry key="..\:/Users/eric_/Desktop/Note2/app/src/main/res/layout/note_layout.xml" value="0.176" />
+        <entry key="..\:/Users/eric_/Desktop/Note2/app/src/main/res/layout/setting_cover.xml" value="0.1515625" />
+        <entry key="..\:/Users/eric_/Desktop/Note2/app/src/main/res/layout/setting_layout.xml" value="0.1515625" />
+      </map>
+    </option>
+  </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>

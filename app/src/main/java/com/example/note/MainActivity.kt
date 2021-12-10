@@ -181,11 +181,14 @@ class MainActivity : BaseActivity(), OnItemClickListener {
         val content = data.extras!!.getString("content")
         val time = data.extras!!.getString("time")
         val tag = data.extras!!.getInt("tag", 1)
+        val image = data.extras!!.getString("image")
+        val video = data.extras!!.getString("video")
+        Log.e("TAG", "get img uri to be store:" + data.extras!!.getString("image"))
         note_Id = data.extras!!.getLong("id", 0)
         Log.d(TAG, "returnMode:$returnMode")
         if (returnMode == 1) { //修改笔记
             //将结果写入Note实体类
-            val newNote = Note(content, time, tag)
+            val newNote = Note(content, time, tag, image, video)
             newNote.id = note_Id //需要通过id进行修改
             val op = CRUD(context)
             op.open()
@@ -193,7 +196,7 @@ class MainActivity : BaseActivity(), OnItemClickListener {
             op.close()
         } else if (returnMode == 0) { //新增笔记
             //将结果写入Note实体类
-            val newNote = Note(content, time, tag)
+            val newNote = Note(content, time, tag, image, video)
             val op = CRUD(context)
             op.open()
             op.addNote(newNote)
@@ -253,14 +256,19 @@ class MainActivity : BaseActivity(), OnItemClickListener {
     override fun onItemClick(parent: AdapterView<*>, view: View, position: Int, id: Long) {
         when (parent.id) {
             R.id.lv -> {
+
                 val curNote = parent.getItemAtPosition(position) as Note
                 val intent = Intent(this@MainActivity, EditActivity::class.java)
                 intent.putExtra("content", curNote.content)
+                Log.e("TAG", "content to be show:" + curNote.content)
                 intent.putExtra("id", curNote.id)
                 intent.putExtra("time", curNote.time)
                 //修改笔记的mode设置为3，与新建笔记的mode值为4进行区分
                 intent.putExtra("mode", 3)
                 intent.putExtra("tag", curNote.tog)
+                intent.putExtra("image", curNote.image)
+                Log.e("TAG", "img to be show:" + noteList[position].image)
+                intent.putExtra("video", curNote.video)
                 startActivityForResult(intent, 1)
                 Log.d(TAG, "onItemClick" + (position + 1))
             }

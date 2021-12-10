@@ -46,12 +46,18 @@ class Note {
             : String? = null
     var tog //笔记标签
             = 0
+    var image //笔记时间
+            : String? = null
+    var video //笔记时间
+            : String? = null
 
     constructor() {}
-    constructor(content: String?, time: String?, tog: Int) {
+    constructor(content: String?, time: String?, tog: Int, image: String?, video: String?) {
         this.content = content
         this.time = time
         this.tog = tog
+        this.image = image
+        this.video = video
     }
 
     override fun toString(): String {

@@ -35,6 +35,16 @@ import android.view.MotionEvent
 import android.widget.AdapterView
 
 class NoteDatabase(context: Context?) : SQLiteOpenHelper(context, "notes", null, 1) {
+    companion object {
+        const val TABLE_NAME = "notes"
+        const val CONTENT = "content"
+        const val ID = "_id"
+        const val TIME = "time"
+        const val MODE = "mode"
+        const val IMAGE = "image"
+        const val VIDEO = "video"
+    }
+
     //创建数据库
     override fun onCreate(db: SQLiteDatabase) {
         db.execSQL(
@@ -42,7 +52,9 @@ class NoteDatabase(context: Context?) : SQLiteOpenHelper(context, "notes", null,
                     + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                     + CONTENT + " TEXT NOT NULL, "
                     + TIME + " TEXT NOT NULL, "
-                    + MODE + " INTEGER DEFAULT 1)"
+                    + MODE + " INTEGER DEFAULT 1,"
+                    + IMAGE + " TEXT,"
+                    + VIDEO + " TEXT)"
         )
     }
 
@@ -64,11 +76,4 @@ class NoteDatabase(context: Context?) : SQLiteOpenHelper(context, "notes", null,
         }*/
     }
 
-    companion object {
-        const val TABLE_NAME = "notes"
-        const val CONTENT = "content"
-        const val ID = "_id"
-        const val TIME = "time"
-        const val MODE = "mode"
-    }
 }

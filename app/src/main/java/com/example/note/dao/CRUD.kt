@@ -29,6 +29,7 @@ import android.view.WindowManager
 import android.util.DisplayMetrics
 import com.example.note.EditActivity
 import android.graphics.drawable.ColorDrawable
+import android.util.Log
 import android.view.Gravity
 import android.view.View.OnTouchListener
 import android.view.MotionEvent
@@ -62,44 +63,50 @@ class CRUD(context: Context?) {
         //添加一个笔记到数据库
         //专门处理数据的一个类，相当于一个内容值
         val contentValues = ContentValues()
-        contentValues.put(NoteDatabase.Companion.CONTENT, note.content)
-        contentValues.put(NoteDatabase.Companion.TIME, note.time)
-        contentValues.put(NoteDatabase.Companion.MODE, note.tog)
-        val insertId = db!!.insert(NoteDatabase.Companion.TABLE_NAME, null, contentValues)
+        contentValues.put(NoteDatabase.CONTENT, note.content)
+        Log.e("TAG", "database to store content:" + note.content)
+        contentValues.put(NoteDatabase.TIME, note.time)
+        contentValues.put(NoteDatabase.MODE, note.tog)
+        contentValues.put(NoteDatabase.IMAGE, note.image)
+        Log.e("TAG", "database to store img:" + note.image)
+        contentValues.put(NoteDatabase.VIDEO, note.video)
+        val insertId = db!!.insert(NoteDatabase.TABLE_NAME, null, contentValues)
         note.id = insertId
         return note
     }
 
     //通过id获取Note数据
-    fun getNote(id: Long): Note {
-        val cursor = db!!.query(
-            NoteDatabase.Companion.TABLE_NAME,
-            columns,
-            NoteDatabase.Companion.ID + "=?",
-            arrayOf(id.toString()),
-            null,
-            null,
-            null
-        )
-        cursor?.moveToFirst()
-        return Note(cursor!!.getString(1), cursor.getString(2), cursor.getInt(3))
-    }
+//    fun getNote(id: Long): Note {
+//        val cursor = db!!.query(
+//            NoteDatabase.Companion.TABLE_NAME,
+//            columns,
+//            NoteDatabase.Companion.ID + "=?",
+//            arrayOf(id.toString()),
+//            null,
+//            null,
+//            null
+//        )
+//        cursor?.moveToFirst()
+//        return Note(cursor!!.getString(1), cursor.getString(2), cursor.getInt(3),cursor.getString(4),cursor.getString(5))
+//    }
 
     //通过id获取Note数据
     val allNotes: List<Note>
         get() {
             val cursor =
-                db!!.query(NoteDatabase.Companion.TABLE_NAME, columns, null, null, null, null, null)
+                db!!.query(NoteDatabase.TABLE_NAME, columns, null, null, null, null, null)
             val list: MutableList<Note> = ArrayList()
             var note: Note? = null
             if (cursor.count > 0) {
                 while (cursor.moveToNext()) {
                     note = Note()
-                    note.id = cursor.getLong(cursor.getColumnIndex(NoteDatabase.Companion.ID))
+                    note.id = cursor.getLong(cursor.getColumnIndex(NoteDatabase.ID))
                     note.content =
-                        cursor.getString(cursor.getColumnIndex(NoteDatabase.Companion.CONTENT))
-                    note.time = cursor.getString(cursor.getColumnIndex(NoteDatabase.Companion.TIME))
-                    note.tog = cursor.getInt(cursor.getColumnIndex(NoteDatabase.Companion.MODE))
+                        cursor.getString(cursor.getColumnIndex(NoteDatabase.CONTENT))
+                    note.time = cursor.getString(cursor.getColumnIndex(NoteDatabase.TIME))
+                    note.tog = cursor.getInt(cursor.getColumnIndex(NoteDatabase.MODE))
+                    note.image = cursor.getString(cursor.getColumnIndex(NoteDatabase.IMAGE))
+                    note.video = cursor.getString(cursor.getColumnIndex(NoteDatabase.VIDEO))
                     list.add(note)
                 }
             }
@@ -109,20 +116,22 @@ class CRUD(context: Context?) {
     //修改笔记
     fun updateNote(note: Note): Int {
         val values = ContentValues()
-        values.put(NoteDatabase.Companion.CONTENT, note.content)
-        values.put(NoteDatabase.Companion.TIME, note.time)
-        values.put(NoteDatabase.Companion.MODE, note.tog)
+        values.put(NoteDatabase.CONTENT, note.content)
+        values.put(NoteDatabase.TIME, note.time)
+        values.put(NoteDatabase.MODE, note.tog)
+        values.put(NoteDatabase.IMAGE, note.image)
+        values.put(NoteDatabase.VIDEO, note.video)
         return db!!.update(
-            NoteDatabase.Companion.TABLE_NAME, values,
-            NoteDatabase.Companion.ID + "=?", arrayOf(note.id.toString())
+            NoteDatabase.TABLE_NAME, values,
+            NoteDatabase.ID + "=?", arrayOf(note.id.toString())
         )
     }
 
     //删除笔记
     fun removeNote(note: Note) {
         db!!.delete(
-            NoteDatabase.Companion.TABLE_NAME,
-            NoteDatabase.Companion.ID + "=" + note.id,
+            NoteDatabase.TABLE_NAME,
+            NoteDatabase.ID + "=" + note.id,
             null
         )
     }
@@ -130,10 +139,12 @@ class CRUD(context: Context?) {
     companion object {
         //取出数据库的数据
         private val columns = arrayOf<String>(
-            NoteDatabase.Companion.ID,
-            NoteDatabase.Companion.CONTENT,
-            NoteDatabase.Companion.TIME,
-            NoteDatabase.Companion.MODE
+            NoteDatabase.ID,
+            NoteDatabase.CONTENT,
+            NoteDatabase.TIME,
+            NoteDatabase.MODE,
+            NoteDatabase.IMAGE,
+            NoteDatabase.VIDEO
         )
     }
 
